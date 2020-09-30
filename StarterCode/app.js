@@ -1,3 +1,4 @@
+// Charts Function
 function buildCharts(sample) {
 
     //Read samples.json
@@ -26,7 +27,7 @@ function buildCharts(sample) {
             //Bar Plot
             var trace = {
                 x: slicedSampleValues,
-                y: slicedOtuIds.map(object => "OTU " + object),
+                y: slicedOtuIds.map(d => "OTU " + d),
                 text: labels,
                 type:"bar",
                 orientation: "h",
@@ -73,12 +74,11 @@ function buildCharts(sample) {
 
             demoInfo.html("");
 
-            var filteredData = samlpleMeta.filter(object => object.sample);
+            var filteredData = samlpleMeta.filter(object => object.id == sample)[0];
+            console.log(filteredData)
 
-            Object.entries(demoInfo).forEach((key) => {
-                console.log(key);
-    
-                var cell = row.append('td').text(value);
+            Object.entries(filteredData).forEach((key) => {
+                demoInfo.append("div").text(key[0] + ": " + key[1])
             });
         });
     };
@@ -87,15 +87,14 @@ function init () {
 
     var dropdown = d3.select("#selDataset");
 
-    d3.json("samples.json").then (incomingData1 =>{
-        console.log(incomingData1);
+    d3.json("samples.json").then (incomingData =>{
+        console.log(incomingData);
 
-        incomingData1.names.forEach(name => {
+        incomingData.names.forEach(name => {
             dropdown.append("option").text(name).property("value", name);
         });
-
-        buildCharts(incomingData1.names[0]);
-        demoTable(incomingData1.names[0]);
+        buildCharts(incomingData.names[0]);
+        demoTable(incomingData.names[0]);
     });
 };
 
