@@ -1,32 +1,37 @@
 // Charts Function
 function buildCharts(sample) {
 
-    //Read samples.json
+        // Day 2 Activity 6
+        //Read samples.json
         d3.json("samples.json").then (incomingData =>{
             console.log(incomingData)
 
+            //Filtering through the samples by ID
+            var filteredValues = incomingData.samples.filter(object => object.id == sample)[0];
+            console.log(filteredValues);
+
+            //Top 10 Sample Values reversed 
+            var topValues = filteredValues.sample_values.slice(0, 10).reverse();
+
             //Sample Values
-            var sampleValues =  incomingData.samples[0].sample_values;
+            var sampleValues = filteredValues.sample_values;
             console.log(sampleValues)
 
             //OTU ID's
-            var otuIds = incomingData.samples[0].otu_ids;
+            var otuIds = filteredValues.otu_ids;
             console.log(otuIds)
 
             //Top 10 Labels
-            var labels =  incomingData.samples[0].otu_labels.slice(0,10);
+            var labels =  filteredValues.otu_labels.slice(0,10);
             console.log (labels)
 
-            //Top 10 values for the bar chart and reversed 
-            var slicedSampleValues =  sampleValues.slice(0,10).reverse();
-
-            //Top 10 otu ids for the bar chart and reversed 
-            var slicedOtuIds = otuIds.slice(0, 10).reverse();
+            //Top 10 otu ids reversed for bar chart
+            var slicedOtuIds = (filteredValues.otu_ids.slice(0, 10)).reverse();
             console.log (slicedOtuIds)
 
             //Bar Plot
             var trace = {
-                x: slicedSampleValues,
+                x: topValues,
                 y: slicedOtuIds.map(d => "OTU " + d),
                 text: labels,
                 type:"bar",
@@ -34,8 +39,14 @@ function buildCharts(sample) {
             };
 
             var data = [trace];
+
+            var layout = {
+                yaxis:{
+                    tickmode:"linear",
+                },
+            };
     
-        Plotly.newPlot("bar", data);
+        Plotly.newPlot("bar", data, layout);
         
             //Bubble Chart
             var trace1 = {
@@ -62,19 +73,22 @@ function buildCharts(sample) {
         });
 }; 
 
+    // Day 3 ctivity 7 & 8
     //Demographic Table Function
     function demoTable(sample) {
- 
+
+        //Read samples.json
         d3.json("samples.json").then((incomingData)=> {
   
-            var samlpleMeta = incomingData.metadata;
-            console.log(samlpleMeta)
+            var sampleMeta = incomingData.metadata;
+            console.log(sampleMeta)
 
             var demoInfo = d3.select("#sample-metadata");
 
             demoInfo.html("");
 
-            var filteredData = samlpleMeta.filter(object => object.id == sample)[0];
+            // Filtering through the sampledata by ID
+            var filteredData = sampleMeta.filter(object => object.id == sample)[0];
             console.log(filteredData)
 
             Object.entries(filteredData).forEach((key) => {
@@ -83,16 +97,22 @@ function buildCharts(sample) {
         });
     };
 
+//Create Function to input the data into the drop down for selcting
 function init () {
 
+    // Creating variable for dropdown
     var dropdown = d3.select("#selDataset");
 
+    //Read samples.json
     d3.json("samples.json").then (incomingData =>{
         console.log(incomingData);
 
+        //Get the Value/Names from the data and append into the Drop Down variable
         incomingData.names.forEach(name => {
             dropdown.append("option").text(name).property("value", name);
         });
+
+        //Calling the functions for Demo Table & Build Charts based on Names
         buildCharts(incomingData.names[0]);
         demoTable(incomingData.names[0]);
     });
