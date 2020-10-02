@@ -1,7 +1,6 @@
 # Belly Button Biodiversity
 ![Image of BB Biome](https://lh3.googleusercontent.com/proxy/nCpCc8-NNG751BMKv8RoyhmVeTfBZj_6IGz66lZ6MIeaLoKgc1Yn_kwbn22nf-Q6kmUkKpo3spEhyb7jVDTOLLxsJn4sK-BbOZlgoSoHOwpj)
 
-https://solivas89.github.io/Plot.ly_Challenge/
 ## The Belly Button Interactive Website
 Hello, welcome to my interactive dashboard. Here you will be able to view a rather interesting data set that will show
 a variety of different microbes that colonize in human navels.
@@ -11,6 +10,7 @@ in the study) were present in more than 70% of people, while the rest were relat
 
 ## Navigating The Website
 https://solivas89.github.io/Plot.ly_Challenge/StarterCode/
+
 Once the site listed above is visited you will be able to see the belly button data mentioned above displayed for your 
 viewing pleasure. 
 
